@@ -57,7 +57,7 @@ async function getGameData() {
     dataBtnLoading.value = false
   }
   catch {
-    ElMessage.error('生成图片失败')
+    ElMessage.error('获取图片失败')
     dataBtnLoading.value = false
   }
 }

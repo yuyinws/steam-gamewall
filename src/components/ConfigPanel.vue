@@ -37,13 +37,13 @@ const options = [
 <template>
   <div class="w-full mb-5">
     <div card mb-3>
-      <div font-bold text-center>
+      <div font-bold text-18px text-center>
         Steam 游戏墙图片生成器
       </div>
       <div text-14px flex justify-between>
         <div>
           <div>
-            1.输入自己的SteamID <a color-blue href="https://keylol.com/t38759-1-1">如何获取SteamID？</a>
+            1.输入自己的SteamID <a color-blue text-opacity-50 href="https://keylol.com/t38759-1-1">如何获取SteamID？</a>
           </div>
           <div>2.点击获取图片按钮</div>
           <div>3.调整图片数量、列数、宽度等参数</div>
@@ -53,27 +53,27 @@ const options = [
     </div>
     <div card>
       <div option>
-        <div text-gray-500 w-80px>
+        <div text-opacity-50 w-80px>
           SteamID
         </div>
         <el-input v-model="setting.steamid" clearable placeholder="请输入steamid，示例:76561198340841543" />
       </div>
       <div option>
-        <div text-gray-500 w-100px>
+        <div text-opacity-50 w-100px>
           数量
         </div>
         <el-slider v-model="setting.count" :step="setting.columns" :min="4 * setting.columns" />
       </div>
 
       <div option>
-        <div text-gray-500 w-100px>
+        <div text-opacity-50 w-100px>
           列数
         </div>
         <el-slider v-model="setting.columns" :min="2" :max="10" />
       </div>
 
       <div option>
-        <div text-gray-500 w-60px>
+        <div text-opacity-50 w-60px>
           宽度
         </div>
         <el-select v-model="setting.resolution" placeholder="Select">

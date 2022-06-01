@@ -44,13 +44,10 @@ watch(() => props.games, () => {
 
 <template>
   <div w-full flex flex-wrap>
-    <div v-for="(game, index) in localGames" :key="game.appid" :style="{ flex: `${imgWidth}%` }">
-      <button
-        class="icon-btn !outline-none" text-18px bg-gray-800 cursor-pointer color-white absolute
-        @click="emits('deleteGame', index)"
-      >
-        <div i-carbon-delete />
-      </button>
+    <div
+      v-for="(game, index) in localGames" :key="game.appid" :style="{ flex: `${imgWidth}%` }"
+      @dblclick="emits('deleteGame', index)"
+    >
       <img
         object-contain w-full h-auto
         :src="`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`" alt=""

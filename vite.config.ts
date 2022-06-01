@@ -60,6 +60,9 @@ export default defineConfig({
     // see unocss.config.ts for config
     Unocss(),
   ],
+  server: {
+    host: '0.0.0.0',
+  },
 
   // https://github.com/vitest-dev/vitest
   test: {

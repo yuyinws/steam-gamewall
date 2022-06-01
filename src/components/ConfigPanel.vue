@@ -42,6 +42,7 @@ const options = [
       </div>
       <div text-14px flex justify-between>
         <div>
+          使用指南：
           <div>
             1.输入自己的SteamID <a color-blue text-opacity-50 href="https://keylol.com/t38759-1-1">如何获取SteamID？</a>
           </div>
@@ -49,6 +50,9 @@ const options = [
           <div>3.调整图片数量、列数、宽度等参数</div>
           <div>4.点击保存图片</div>
         </div>
+      </div>
+      <div text-opacity-80 mt-3 text-14px text-gray-400>
+        *双击图片可以进行删除
       </div>
     </div>
     <div card>

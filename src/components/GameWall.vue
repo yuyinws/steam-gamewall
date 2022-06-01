@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import _ from 'lodash'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import type { Game, Setting } from '~/pages/index.vue'
+
 const props = defineProps({
   games: {
     type: Array as () => Game[],
@@ -12,6 +14,9 @@ const props = defineProps({
     default: () => { },
   },
 })
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const xxxl = breakpoints.xl
 
 const localGames: Ref<Game[]> = ref([])
 
@@ -25,8 +30,14 @@ function updateGames() {
 }
 
 watch(() => props.setting, (setting: Setting) => {
-  imgWidth.value = 1 / props.setting.columns * 100
-  imgHeight.value = 215 / 460 * setting.columns
+  imgWidth.value = 1 / setting.columns * 100
+  const columns = setting.columns
+  if (xxxl.value)
+    imgHeight.value = 250 - columns * 20
+
+  else
+    imgHeight.value = 150 - columns * 10
+
   updateGames()
 }, {
   immediate: true,
@@ -45,9 +56,7 @@ watch(() => props.games, () => {
   <div w-full flex flex-wrap>
     <div
       v-for="(game) in localGames" :key="game.appid"
-      h-50px
-      lg:h-100px
-      :style="{ flex: `${imgWidth}%`, backgroundImage: `url(https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg)`, backgroundRepeat: 'round' }"
+      :style="{ flex: `${imgWidth}%`, height: `${imgHeight}px`, backgroundImage: `url(https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg)`, backgroundSize: 'cover', backgroundRepeat: 'round' }"
     />
   </div>
 </template>

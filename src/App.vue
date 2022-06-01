@@ -1,8 +1,8 @@
 <template>
   <el-config-provider namespace="ep">
-    <main font-sans p="x-4 y-10" text="center gray-700 dark:gray-200">
+    <main font-sans text="gray-700 dark:gray-200" p-5>
       <router-view />
-      <Footer />
+      <!-- <Footer /> -->
     </main>
   </el-config-provider>
 </template>

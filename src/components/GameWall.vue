@@ -9,7 +9,7 @@ const props = defineProps({
   },
   setting: {
     type: Object as () => Setting,
-    default: () => {},
+    default: () => { },
   },
 })
 
@@ -18,22 +18,15 @@ const localGames: Ref<Game[]> = ref([])
 const imgWidth: Ref<number> = ref(0)
 const imgHeight: Ref<number> = ref(0)
 
-const gameWallRef = ref(null)
-
 function updateGames() {
-  const _localGames = _.cloneDeep(props.games)
-  props.games.forEach((game, i) => {
-    _localGames[i].left = imgWidth.value * (i % props.setting.columns)
-    _localGames[i].top = Math.floor(i / props.setting.columns) * imgHeight.value
-  })
+  let _localGames = _.cloneDeep(props.games)
+  _localGames = _localGames.splice(0, props.setting.count)
   localGames.value = _localGames
 }
 
 watch(() => props.setting, (setting: Setting) => {
-  const _imgWidth = 960 / setting.columns
-  const _imgHeight = (215 / 460) * _imgWidth
-  imgWidth.value = _imgWidth
-  imgHeight.value = _imgHeight
+  imgWidth.value = 1 / props.setting.columns * 100
+  imgHeight.value = 215 / 460 * setting.columns
   updateGames()
 }, {
   immediate: true,
@@ -49,12 +42,12 @@ watch(() => props.games, () => {
 </script>
 
 <template>
-  <div ref="gameWallRef" w-full relative left-5>
-    <template v-for="(game, index) in localGames" :key="game.appid">
-      <div v-if="index < setting.count" absolute :style="{ left: `${game.left}px`, top: `${game.top}px`, width: `${imgWidth}px` }">
-        <!-- <img :style="{ width: `${imgWidth}px` }" h-auto :src="`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`" alt=""> -->
-        <img :style="{ width: `${imgWidth}px` }" h-auto src="https://sdfsdf.dev/460x215.png,blue,yellow" alt="">
-      </div>
-    </template>
+  <div w-full flex flex-wrap>
+    <div
+      v-for="(game) in localGames" :key="game.appid"
+      h-50px
+      lg:h-100px
+      :style="{ flex: `${imgWidth}%`, backgroundImage: `url(https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg)`, backgroundRepeat: 'round' }"
+    />
   </div>
 </template>

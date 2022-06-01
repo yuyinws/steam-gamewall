@@ -32,8 +32,7 @@ $--colors: (
   $button-padding-horizontal: ("default": 50px)
 );
 
-// if you want to import all
-// @use "element-plus/theme-chalk/src/index.scss" as *;
+@use "element-plus/theme-chalk/src/message.scss" as *;
 
 // You can comment it to hide debug info.
 // @debug $--colors;

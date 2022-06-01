@@ -3,6 +3,7 @@ import type { Ref } from 'vue'
 import domtoimage from 'dom-to-image'
 import { saveAs } from 'file-saver'
 import { $fetch } from 'ohmyfetch'
+import { ElMessage } from 'element-plus'
 
 export interface Game {
   appid: number
@@ -25,8 +26,17 @@ const setting: Ref<Setting> = ref({
   columns: 5,
   resolution: 1280,
 })
+
+watch(() => setting.value.columns, () => {
+  setting.value.count = 4 * setting.value.columns
+})
+
 async function getGameData() {
   try {
+    if (!setting.value.steamid) {
+      ElMessage.warning('请输入steamid')
+      return
+    }
     const { response }: any = await $fetch(`/api/ownedGame?steamid=${setting.value.steamid}`)
     let _games: Game[] = response.games
     _games = _games.sort((a, b) => {
@@ -41,9 +51,8 @@ async function getGameData() {
 
     games.value = _games
   }
-  catch (error) {
-    // eslint-disable-next-line no-console
-    console.log('🚀 ~ file: index.vue ~ line 9 ~ getGameData ~ error', error)
+  catch {
+    ElMessage.error('生成图片失败')
   }
 }
 

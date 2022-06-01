@@ -27,7 +27,7 @@ const options = [
 </script>
 
 <template>
-  <div class="w-full m-5 p-5">
+  <div class="w-full mb-5">
     <div card>
       <div option>
         <div text-gray-500 w-80px>
@@ -36,24 +36,24 @@ const options = [
         <el-input v-model="setting.steamid" placeholder="请输入steamid" />
       </div>
       <div option>
-        <div text-gray-500 w-80px pr-60px>
+        <div text-gray-500 w-100px>
           数量
         </div>
-        <el-slider v-model="setting.count" :min="20" />
+        <el-slider v-model="setting.count" :step="setting.columns" :min="4 * setting.columns" />
       </div>
 
       <div option>
-        <div text-gray-500 w-80px pr-60px>
+        <div text-gray-500 w-100px>
           列数
         </div>
         <el-slider v-model="setting.columns" :min="5" :max="10" />
       </div>
 
       <div option>
-        <div text-gray-500 w-80px>
+        <div text-gray-500 w-60px>
           宽度
         </div>
-        <el-select v-model="setting.resolution" class="m-2" placeholder="Select" size="large">
+        <el-select v-model="setting.resolution" placeholder="Select">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -62,12 +62,14 @@ const options = [
           />
         </el-select>
       </div>
-      <el-button @click="emits('getGameData')">
-        生成图片
-      </el-button>
-      <el-button @click="emits('download')">
-        下载图片
-      </el-button>
+      <div w-full flex justify-center>
+        <el-button type="info" @click="emits('getGameData')">
+          生成图片
+        </el-button>
+        <el-button type="primary" @click="emits('download')">
+          下载图片
+        </el-button>
+      </div>
     </div>
   </div>
 </template>

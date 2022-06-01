@@ -19,6 +19,8 @@ export interface Setting {
   resolution: number
 }
 const games: Ref<Game[]> = ref([])
+const saveBtnLoading = ref(false)
+const dataBtnLoading = ref(false)
 const shadowGamewallRef: any = ref(null)
 const setting: Ref<Setting> = ref({
   steamid: '76561198340841543',
@@ -37,6 +39,7 @@ async function getGameData() {
       ElMessage.warning('请输入steamid')
       return
     }
+    dataBtnLoading.value = true
     const { response }: any = await $fetch(`/api/ownedGame?steamid=${setting.value.steamid}`)
     let _games: Game[] = response.games
     _games = _games.sort((a, b) => {
@@ -50,16 +53,24 @@ async function getGameData() {
     })
 
     games.value = _games
+    ElMessage.success('获取成功')
+    dataBtnLoading.value = false
   }
   catch {
     ElMessage.error('生成图片失败')
+    dataBtnLoading.value = false
   }
 }
 
-function download() {
+function saveImg() {
+  saveBtnLoading.value = true
   const gameWallEl = document.getElementById('shadowGamewall') as HTMLImageElement
   domtoimage.toBlob(gameWallEl, { height: shadowGamewallRef.value?.wallHeight, width: setting.value.resolution }).then((blob) => {
-    saveAs(blob, 'pageview.png')
+    saveAs(blob, `${setting.value.steamid}_${setting.value.resolution}_${new Date().valueOf()}.png`)
+  }).catch(() => {
+    ElMessage.error('保存图片失败')
+  }).finally(() => {
+    saveBtnLoading.value = false
   })
 }
 
@@ -70,7 +81,10 @@ onMounted(() => {
 
 <template>
   <div>
-    <config-panel :setting="setting" @download="download" @getGameData="getGameData" />
+    <config-panel
+      :setting="setting" :save-btn-loading="saveBtnLoading" :data-btn-loading="dataBtnLoading"
+      @save-img="saveImg" @getGameData="getGameData"
+    />
     <game-wall id="gameWall" :games="games" :setting="setting" />
     <div display-none>
       <shadow-gamewall id="shadowGamewall" ref="shadowGamewallRef" :games="games" :setting="setting" />

@@ -4,6 +4,7 @@ import domtoimage from 'dom-to-image'
 import { saveAs } from 'file-saver'
 import { $fetch } from 'ohmyfetch'
 import { ElMessage } from 'element-plus'
+import _ from 'lodash'
 
 export interface Game {
   appid: number
@@ -45,7 +46,7 @@ async function getGameData() {
     _games = _games.sort((a, b) => {
       return b.playtime_forever - a.playtime_forever
     })
-    _games = _games.splice(0, 100)
+    _games = _games.splice(0, 200)
 
     _games.forEach((game, i) => {
       game.left = 256 * (i % 5)
@@ -60,6 +61,14 @@ async function getGameData() {
     ElMessage.error('获取图片失败')
     dataBtnLoading.value = false
   }
+}
+
+function shuffleGames() {
+  games.value = _.shuffle(games.value)
+}
+
+function deleteGame(index: number) {
+  games.value.splice(index, 1)
 }
 
 function saveImg() {
@@ -83,9 +92,9 @@ onMounted(() => {
   <div>
     <config-panel
       :setting="setting" :save-btn-loading="saveBtnLoading" :data-btn-loading="dataBtnLoading"
-      @save-img="saveImg" @getGameData="getGameData"
+      @save-img="saveImg" @getGameData="getGameData" @shuffleGames="shuffleGames"
     />
-    <game-wall id="gameWall" :games="games" :setting="setting" />
+    <game-wall id="gameWall" :games="games" :setting="setting" @deleteGame="deleteGame" />
     <div display-none>
       <shadow-gamewall id="shadowGamewall" ref="shadowGamewallRef" :games="games" :setting="setting" />
     </div>

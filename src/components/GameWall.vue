@@ -14,6 +14,8 @@ const props = defineProps({
   },
 })
 
+const emits = defineEmits(['deleteGame'])
+
 const localGames: Ref<Game[]> = ref([])
 
 const imgWidth: Ref<number> = ref(0)
@@ -42,11 +44,17 @@ watch(() => props.games, () => {
 
 <template>
   <div w-full flex flex-wrap>
-    <div
-      v-for="(game) in localGames" :key="game.appid"
-      :style="{ flex: `${imgWidth}%` }"
-    >
-      <img object-contain w-full h-auto :src="`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`" alt="">
+    <div v-for="(game, index) in localGames" :key="game.appid" :style="{ flex: `${imgWidth}%` }">
+      <button
+        class="icon-btn !outline-none" text-18px bg-gray-800 cursor-pointer color-white absolute
+        @click="emits('deleteGame', index)"
+      >
+        <div i-carbon-delete />
+      </button>
+      <img
+        object-contain w-full h-auto
+        :src="`https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/header.jpg`" alt=""
+      >
     </div>
   </div>
 </template>

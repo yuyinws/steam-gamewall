@@ -16,7 +16,7 @@ defineProps({
   },
 })
 
-const emits = defineEmits(['saveImg', 'getGameData'])
+const emits = defineEmits(['saveImg', 'getGameData', 'shuffleGames'])
 
 const options = [
   {
@@ -80,11 +80,14 @@ const options = [
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </div>
-      <div w-full flex justify-center>
-        <el-button type="info" :loading="dataBtnLoading" @click="emits('getGameData')">
+      <div w-full flex flex-wrap justify-center>
+        <el-button size="small" @click="emits('shuffleGames')">
+          随机排序
+        </el-button>
+        <el-button type="info" size="small" :loading="dataBtnLoading" @click="emits('getGameData')">
           获取图片
         </el-button>
-        <el-button type="primary" :loading="saveBtnLoading" @click="emits('saveImg')">
+        <el-button type="primary" size="small" :loading="saveBtnLoading" @click="emits('saveImg')">
           保存图片
         </el-button>
       </div>
